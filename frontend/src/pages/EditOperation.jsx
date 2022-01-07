@@ -67,6 +67,7 @@ const EditOperation = () => {
           <FormError message={errors?.concept?.message} />
         )}
         <FormInput
+          defaultValue={operation?.concept}
           name={"concept"}
           type={"text"}
           label={"Concept"}

@@ -4,6 +4,8 @@ A Full Stack Javascript budget application using React.js / Express.js / Node.js
 
 ***Project Status: WIP***
 
+## DEMO : [budget-challenge](https://budget-alkemy-challenge.netlify.app/)
+
 ## Technology Stack
 
 * Frontend
