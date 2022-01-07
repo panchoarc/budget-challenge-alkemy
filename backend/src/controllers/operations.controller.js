@@ -1,16 +1,14 @@
-const { connection } = require("../config/database");
+const pool = require("../config/database");
 
 const operationsController = {};
 
 operationsController.getLast10Operations = async (req, res) => {
-  return connection
-    .promise()
+  return pool
     .query(
       "SELECT * FROM operations WHERE users_id = ? ORDER BY date DESC LIMIT 10",
       [req.users.id]
     )
     .then((operations) => {
-      console.log(operations[0].length);
       res.json(operations[0]);
     })
     .catch((error) => {
@@ -22,14 +20,12 @@ operationsController.getLast10Operations = async (req, res) => {
 };
 
 operationsController.getOperation = async (req, res) => {
-  return connection
-    .promise()
+  return pool
     .query("SELECT * FROM operations WHERE users_id = ? AND id = ?", [
       req.users.id,
       req.params.id,
     ])
     .then((operations) => {
-      console.log(operations[0].length);
       res.json({ operation: operations[0] });
     })
     .catch((error) => {
@@ -41,21 +37,16 @@ operationsController.getOperation = async (req, res) => {
 };
 
 operationsController.createOperation = async (req, res) => {
-  console.log(req.body);
   const { type, amount, concept, date } = req.body;
   const { id } = req.users;
 
-  return connection
-    .promise()
+  return pool
     .execute(
       "INSERT INTO operations (concept, amount,date ,type, users_id) VALUES (?, ?, ?, ?,?)",
       [concept, amount, new Date(date), type, id]
     )
-    .then((operation) => {
-      console.log(operation[0]);
-      res
-        .status(201)
-        .json({ message: "Operation created", operation: operation });
+    .then(() => {
+      res.status(201).json({ message: "Operation created" });
     })
     .catch((error) => {
       console.log(error);
@@ -70,8 +61,7 @@ operationsController.updateOperation = async (req, res) => {
   const { amount, concept, date } = req.body;
   const { id: userId } = req.users;
 
-  return connection
-    .promise()
+  return pool
     .execute(
       "UPDATE operations SET concept = ?, amount = ?, date = ? WHERE id = ? AND users_id = ?",
       [concept, amount, new Date(date), id, userId]
@@ -91,13 +81,12 @@ operationsController.deleteOperation = async (req, res) => {
   const { id } = req.params;
   const { id: userId } = req.users;
 
-  return connection
-    .promise()
+  return pool
     .execute("DELETE FROM operations WHERE id = ? AND users_id = ?", [
       id,
       userId,
     ])
-    .then((operation) => {
+    .then(() => {
       res.status(200).json({ message: "Operation deleted" });
     })
     .catch((error) => {

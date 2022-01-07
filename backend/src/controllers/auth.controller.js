@@ -1,32 +1,24 @@
 require("dotenv").config();
-const { connection } = require("../config/database");
+const pool = require("../config/database");
 const bcrypt = require("bcryptjs");
-const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 
 const authController = {};
 
 authController.signup = async (req, res) => {
   const { name, email, password } = req.body;
-  const errors = validationResult(req);
-  console.log(errors);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
 
   try {
+    const sql = "SELECT * FROM users WHERE email = ?";
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    let user = await connection
-      .promise()
-      .query("SELECT * FROM users WHERE email = ?", [email]);
+    let user = await pool.query(sql, [email]);
     if (user[0] && user[0].length > 0) {
-      res.status(409).json({
+      res.status(400).json({
         message: "User already exists",
       });
     } else {
-      return connection
-        .promise()
+      return pool
         .query("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", [
           name,
           email,
@@ -49,16 +41,10 @@ authController.signup = async (req, res) => {
 authController.login = async (req, res) => {
   const { email, password } = req.body;
 
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-
   try {
-    let user = await connection
-      .promise()
-      .query("SELECT * FROM users WHERE email = ?", [email]);
-    if (user[0] && user[0].length > 0) {
+    const loginSQL = "SELECT * FROM users WHERE email = ?";
+    let user = await pool.query(loginSQL, [email]);
+    if (user[0].length > 0) {
       const isMatch = await bcrypt.compare(password, user[0][0].password);
       if (isMatch) {
         const payload = {
