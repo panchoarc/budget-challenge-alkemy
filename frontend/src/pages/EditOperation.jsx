@@ -2,7 +2,6 @@
 
 /**Importing State and Validations */
 import { yupResolver } from "@hookform/resolvers/yup";
-import { format, parseISO } from "date-fns";
 import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import { Controller, useForm } from "react-hook-form";
@@ -26,7 +25,6 @@ const EditOperation = () => {
   const { selectedOperation } = useSelector((state) => state.operations);
   const { status } = useSelector((state) => state.alert);
 
-
   const {
     control,
     register,
@@ -44,7 +42,7 @@ const EditOperation = () => {
     } else {
       setOperation(...selectedOperation);
     }
-  }, [selectedOperation]);
+  }, [selectedOperation, params.id, dispatch]);
 
   const onSubmit = (data, e) => {
     e.preventDefault();
