@@ -22,7 +22,8 @@
     "helmet": "^4.6.0",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
-    "mysql2": "^2.3.3"
+    "mysql2": "^2.3.3",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
