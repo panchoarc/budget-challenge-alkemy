@@ -6,8 +6,12 @@ const validation = (schema) => async (req, res, next) => {
 
     next();
   } catch (e) {
-    console.log(e);
-    return res.status(400).json({ error: e.errors.join(", ") });
+    /**TODO: Fix Validation Errors */
+
+    const errors = e.inner.map((error) => {
+      return { field: error.path, message: error.message };
+    });
+    return res.status(400).json(errors);
   }
 };
 
