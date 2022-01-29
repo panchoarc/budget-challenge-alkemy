@@ -4,7 +4,7 @@ const Container = ({ children, onSubmit }) => {
       onSubmit={onSubmit}
       className="flex py-20 justify-center items-end max-h-screen"
     >
-      <div className="px-12 py-4 w-full max-w-lg rounded-2xl shadow-lg shadow-black">
+      <div className="px-12 py-4 w-full max-w-lg rounded-2xl md:shadow-lg shadow-black ">
         {children}
       </div>
     </form>

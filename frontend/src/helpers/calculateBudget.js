@@ -1,13 +1,14 @@
 const calculateBudget = (operations) => {
-  const total = operations.reduce((acc, el) => {
-    if (el.type === "INCOME") {
-      acc += el.amount;
+  let totalBudget = 0;
+
+  operations.forEach((operation) => {
+    if (operation.type === "INCOME") {
+      totalBudget += Number(operation.amount);
     } else {
-      acc -= el.amount;
+      totalBudget -= Number(operation.amount);
     }
-    return acc;
-  }, 0);
-  return total;
+  });
+  return totalBudget;
 };
 
 export { calculateBudget };

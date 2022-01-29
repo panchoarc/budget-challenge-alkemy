@@ -40,7 +40,7 @@ const EditOperation = () => {
     if (selectedOperation === null) {
       dispatch(getOperation(params.id));
     } else {
-      setOperation(...selectedOperation);
+      setOperation(selectedOperation);
     }
   }, [selectedOperation, params.id, dispatch]);
 

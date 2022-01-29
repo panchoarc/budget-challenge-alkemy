@@ -20,8 +20,8 @@ export const getLast10Operations = createAsyncThunk(
   "operations/getLast10Operations",
   async (thunkAPI) => {
     try {
-      const response = await axiosClient.get("/api/operations");
-      return { operations: response.data };
+      const { data } = await axiosClient.get("/api/operations");
+      return data.operations;
     } catch (error) {
       thunkAPI.dispatch(setErrorMessage(error.response.data));
       thunkAPI.rejectWithValue();
@@ -33,8 +33,8 @@ export const getOperation = createAsyncThunk(
   "operations/getOperation",
   async (id, thunkAPI) => {
     try {
-      const response = await axiosClient.get(`/api/operations/${id}`);
-      return { operation: response.data.operation };
+      const { data } = await axiosClient.get(`/api/operations/${id}`);
+      return data.operation;
     } catch (error) {
       thunkAPI.dispatch(setErrorMessage(error.response.data));
       thunkAPI.rejectWithValue();
@@ -96,9 +96,9 @@ const operationsSlice = createSlice({
     },
     [getLast10Operations.fulfilled]: (state, { payload }) => {
       state.error = false;
-      state.operations = payload.operations;
+      state.operations = payload;
       state.loading = false;
-      state.totalBudget = calculateBudget(payload.operations);
+      state.totalBudget = calculateBudget(state.operations);
     },
     [getLast10Operations.rejected]: (state, { payload }) => {
       state.error = true;
@@ -110,8 +110,9 @@ const operationsSlice = createSlice({
       state.selectedOperation = null;
     },
     [getOperation.fulfilled]: (state, { payload }) => {
+      console.log(payload);
       state.loading = false;
-      state.selectedOperation = payload.operation;
+      state.selectedOperation = payload;
     },
     [updateOperation.pending]: (state, { payload }) => {
       state.loading = true;
