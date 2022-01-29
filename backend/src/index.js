@@ -1,37 +1,16 @@
-//Creates a basic express app
-require("dotenv").config();
-const express = require("express");
-const helmet = require("helmet");
-const morgan = require("morgan");
-const cors = require("cors");
+const app = require("./app");
+const db = require("./models");
 
-const app = express();
-
-const authRoutes = require("./routes/auth.routes");
-const operationRoutes = require("./routes/operation.routes");
-
-//Middleware
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(morgan("dev"));
-app.use(helmet());
-
-//Routes
-app.use("/api/auth", authRoutes);
-app.use("/api/operations", operationRoutes);
-
-//Start server
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.SERVER_PORT;
 
 async function start() {
   try {
+    await db.sequelize.sync({ force: false });
     app.listen(PORT, () => {
-      console.log(`Servidor corriendo en el puerto ${PORT}`);
+      console.log(`Server running on port ${PORT}`);
     });
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    console.log(err);
   }
 }
-
 start();
