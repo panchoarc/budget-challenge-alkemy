@@ -1,6 +1,4 @@
 require("dotenv").config();
-
-SERVER_JWT_SECRET = "secret";
 module.exports = {
   development: {
     username: "root",
@@ -29,7 +27,5 @@ module.exports = {
     host: process.env.SERVER_MYSQL_HOST,
     dialect: process.env.SERVER_MYSQL_DIALECT,
     db_port: process.env.SERVER_MYSQL_PORT,
-    server_port: process.env.PORT,
-    logging: false,
   },
 };
