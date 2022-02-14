@@ -21,6 +21,7 @@ A Full Stack Javascript budget application using React.js / Express.js / Node.js
   * [Express.js](https://expressjs.com/)
   * [MySQL2](https://www.npmjs.com/package/mysql2)
   * [Dotenv](https://www.npmjs.com/package/dotenv)
+  * [Sequelize](https://sequelize.org/v6/)
   * [JsonWebToken](https://www.npmjs.com/package/jsonwebtoken)
 
 * Database
