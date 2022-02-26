@@ -17,7 +17,7 @@ const signupUser = async (req, res) => {
       });
     } else {
       const hashedPassword = await generateEncryptedPassword(password);
-      const newUser = await db[UserEntity].create({
+      await db[UserEntity].create({
         name,
         email,
         password: hashedPassword,
@@ -39,7 +39,7 @@ const loginUser = async (req, res) => {
       const isMatch = await comparePassword(password, user.password);
       if (isMatch) {
         const token = signJWT(user);
-        res.status(200).json({ token, user: user.dataUser() });
+        res.status(200).json({ token });
       } else {
         res.status(400).json({
           message: "Invalid Credentials",

@@ -9,7 +9,7 @@ const validation = (schema) => async (req, res, next) => {
     const errors = e.inner.map(({ path, message }) => {
       return { [path]: message };
     });
-    return res.status(400).json(errors);
+    return res.status(400).json({errors});
   }
 };
 
