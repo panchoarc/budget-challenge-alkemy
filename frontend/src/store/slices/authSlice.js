@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosClient from "../../config/axiosClient";
+import { retrieveUserData } from "../../helpers/jwtdecoding";
 import { setErrorMessage, setSuccessfullMessage } from "./alertSlice";
 
 export const registerUser = createAsyncThunk(
@@ -20,7 +21,8 @@ export const loginUser = createAsyncThunk(
     try {
       const response = await axiosClient.post("/api/auth/login", user);
       axiosClient.defaults.headers.common["access-token"] = response.data.token;
-      return { token: response.data.token, user: response.data.user };
+      const userData = retrieveUserData(response.data.token);
+      return { token: response.data.token, user: userData };
     } catch (error) {
       thunkAPI.dispatch(setErrorMessage(error.response.data));
     }
