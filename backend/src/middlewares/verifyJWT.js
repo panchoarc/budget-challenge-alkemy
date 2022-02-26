@@ -16,6 +16,6 @@ module.exports = async (req, res, next) => {
     req.users = cypher;
     next();
   } catch (error) {
-    res.status(401).json({ message: "Invalid Token" });
+    res.status(500).json({ message: error });
   }
 };

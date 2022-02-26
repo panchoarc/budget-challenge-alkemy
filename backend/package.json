@@ -7,12 +7,16 @@
     "prod": "set NODE_ENV=production&& node ./src/index.js",
     "dev": "set NODE_ENV=development&& nodemon ./src/index.js",
     "test": "set NODE_ENV=test&& jest --watch --detectOpenHandles",
+    "test:coverage": "set NODE_ENV=test&& jest --coverage --detectOpenHandles",
     "migrate:prod": "sequelize db:create --env=production && sequelize db:migrate --env=production",
     "migrate:dev": "sequelize db:create --env=development && sequelize db:migrate --env=development",
     "migrate:test": "sequelize db:create --env=test && sequelize db:migrate --env=test",
     "seed:prod": "sequelize db:seed:all --env=production",
     "seed:dev": "sequelize db:seed:all --env=development",
-    "seed:test": "sequelize db:seed:all --env=test"
+    "seed:test": "sequelize db:seed:all --env=test",
+    "delete:prod": "sequelize db:drop --env=production",
+    "delete:dev": "sequelize db:drop --env=development",
+    "delete:test": "sequelize db:drop --env=test"
   },
   "engines": {
     "node": "17.x"

@@ -10,7 +10,6 @@ const getLast10Operations = async (req, res) => {
     });
     return res.status(200).json({ operations });
   } catch (error) {
-    console.log(error);
     res
       .status(500)
       .json({ message: "There was a problem retrieving the data" });
@@ -19,15 +18,15 @@ const getLast10Operations = async (req, res) => {
 
 const getOperation = async (req, res) => {
   try {
+    const validatedId = parseInt(req.params.id, 10);
     const operation = await db[OperationsEntity].findOne({
-      where: { id: req.params.id, userId: req.users.userId },
+      where: { id: validatedId, userId: req.users.userId },
     });
     if (!operation) {
       return res.status(404).json({ message: "Operation not found" });
     }
     return res.status(200).json({ operation });
   } catch (error) {
-    console.log(error);
     res
       .status(500)
       .json({ message: "There was a problem retrieving the data" });
@@ -39,10 +38,10 @@ const createOperation = async (req, res) => {
   const { userId } = req.users;
 
   try {
-    console.log(userId);
+    const validatedAmount = parseFloat(amount);
     const newOperation = await db[OperationsEntity].create({
       concept,
-      amount,
+      amount: validatedAmount,
       type,
       date,
       userId,
@@ -60,13 +59,13 @@ const createOperation = async (req, res) => {
 };
 
 const updateOperation = async (req, res) => {
-  const { id } = req.params;
   const { amount, concept, date } = req.body;
   const { userId } = req.users;
 
+  const validatedId = parseInt(req.params.id, 10);
   try {
     const operation = await db[OperationsEntity].findOne({
-      where: { id, userId },
+      where: { id: validatedId, userId },
     });
     if (!operation) {
       return res.status(404).json({ message: "Operation not found" });
@@ -81,19 +80,18 @@ const updateOperation = async (req, res) => {
       operation: updatedOperation,
     });
   } catch (error) {
-    console.log(error);
     res
       .status(500)
       .json({ message: "There was a problem updating the operation" });
   }
 };
 const deleteOperation = async (req, res) => {
-  const { id } = req.params;
   const { userId } = req.users;
 
   try {
+    const validatedId = parseInt(req.params.id, 10);
     const operation = await db[OperationsEntity].findOne({
-      where: { id, userId },
+      where: { id: validatedId, userId },
     });
     if (!operation) {
       return res.status(404).json({ message: "Operation not found" });
@@ -101,7 +99,6 @@ const deleteOperation = async (req, res) => {
     await operation.destroy();
     return res.status(200).json({ message: "Operation deleted" });
   } catch (error) {
-    console.log(error);
     res
       .status(500)
       .json({ message: "There was a problem deleting the operation" });

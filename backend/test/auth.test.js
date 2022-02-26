@@ -30,10 +30,6 @@ beforeAll(async () => {
   await db.sequelize.sync({ force: true });
 });
 
-afterAll(async () => {
-  await db.sequelize.close();
-});
-
 describe(`POST ${authRoute}/signup`, () => {
   it("should success when trying to create an user that doesn't exists, responding a HTTP 201 Created", async () => {
     const response = await request.post(`${authRoute}/signup`).send(validData);

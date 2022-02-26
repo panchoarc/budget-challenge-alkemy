@@ -40,14 +40,5 @@ module.exports = (sequelize, DataTypes) => {
       paranoid: true,
     }
   );
-  Users.prototype.dataUser = function () {
-    const values = Object.assign({}, this.get());
-    delete values.password;
-    delete values.deletedAt;
-    delete values.createdAt;
-    delete values.updatedAt;
-    return values;
-  };
-
   return Users;
 };
