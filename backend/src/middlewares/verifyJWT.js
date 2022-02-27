@@ -3,16 +3,16 @@ const jwt = require("jsonwebtoken");
 
 module.exports = async (req, res, next) => {
   //Read the token from the headers
-  const token = req.header("access-token");
 
   try {
+    const token = req.header("access-token");
     //Check if no token
     if (!token) {
       return res.status(401).json({ message: "Token not Provided" });
     }
 
     //Check token
-    const cypher = await jwt.verify(token, process.env.SERVER_JWT_SECRET);
+    const cypher = jwt.verify(token, process.env.SERVER_JWT_SECRET);
     req.users = cypher;
     next();
   } catch (error) {
