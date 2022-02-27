@@ -22,8 +22,8 @@ const invalidUserLogin = {
 };
 
 const invalidCredentials = {
-  email: "",
-  password: "12345678",
+  email: "example@example.com",
+  password: "123456",
 };
 
 beforeAll(async () => {
@@ -86,11 +86,6 @@ describe(`POST ${authRoute}/login`, () => {
       .send(invalidCredentials);
 
     expect(response.status).toBe(400);
-    expect(response.status).toBe(400);
-    expect(response.body).toEqual(
-      expect.objectContaining({
-        errors: expect.any(Object),
-      })
-    );
+    expect(response.body.message).toEqual("Invalid Credentials");
   });
 });
