@@ -8,6 +8,7 @@ const FormInput = ({ type, name, label, register, ...props }) => {
         {label}
       </label>
       <input
+        id={`${name}`}
         {...props}
         {...register(`${name}`)}
         type={`${type}`}

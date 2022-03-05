@@ -3,7 +3,7 @@ import jwt_decode from "jwt-decode";
 const retrieveUserData = (token) => {
   const decoded = jwt_decode(token);
   return {
-    id: decoded.id,
+    id: decoded.userId,
     email: decoded.email,
     name: decoded.name,
   };
