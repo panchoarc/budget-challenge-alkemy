@@ -25,6 +25,7 @@ export const loginUser = createAsyncThunk(
       return { token: response.data.token, user: userData };
     } catch (error) {
       thunkAPI.dispatch(setErrorMessage(error.response.data));
+      return { token: null, user: null };
     }
   }
 );
