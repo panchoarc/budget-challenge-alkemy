@@ -6,10 +6,8 @@ Backend for budget application using Express.js / Node.js / MySQL
 
 ## TO-DO List
 
-- [ ] Upload Application to Netlify
-- [ ] Create Tests
 - [ ] Establish the CI/CD for this Project
-- [ ] Solve Bugs with some forms
+- [ ] Create tests that doesn't depend on database.
 
 ## Technology Stack
 
@@ -18,12 +16,20 @@ Backend for budget application using Express.js / Node.js / MySQL
   * [MySQL2](https://www.npmjs.com/package/mysql2)
   * [Dotenv](https://www.npmjs.com/package/dotenv)
   * [JsonWebToken](https://www.npmjs.com/package/jsonwebtoken)
+  * [Cors](https://www.npmjs.com/package/cors)
+  * [Helmet](https://helmetjs.github.io/)
+  * [Sequelize](https://sequelize.org/v6/)
 
 * Database
   * [MYSQL](https://www.mysql.com/)
 
 * Development Tools
   * [Docker](https://www.docker.com/)
+  * [Heroku](https://www.heroku.com/)
+
+* Testing Tools
+  * [Supertest](https://www.npmjs.com/package/supertest)
+  * [Jest](https://jestjs.io/)
 
 
 ## Getting Started
@@ -41,14 +47,18 @@ Backend for budget application using Express.js / Node.js / MySQL
    ```sh
    npm install
    ```
-3. Create a ***.env*** with the following variables
+3. Create a ***.env*** with the following variables for a production environment
+   1. PD:  SERVER_JWT_TOKEN_TEST only for testing purposes.
+   2. If you want to change the variables for development, see config/config.js.
     ```sh
-    SERVER_MYSQL_HOST=""
-    SERVER_MYSQL_USER=""
-    SERVER_MYSQL_PASSWORD=""
-    SERVER_MYSQL_DATABASE=""
-    SERVER_PORT=""
-    SERVER_JWT_SECRET=""
+    SERVER_MYSQL_HOST=
+    SERVER_MYSQL_USER=
+    SERVER_MYSQL_PASSWORD=
+    SERVER_MYSQL_DATABASE=
+    SERVER_MYSQL_DIALECT=
+    SERVER_MYSQL_PORT=
+    SERVER_JWT_SECRET=
+    SERVER_JWT_TOKEN_TEST=
     ```
     PD: If you want to create a docker image and run it, follow the next steps.
      ```sh
