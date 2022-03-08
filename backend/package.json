@@ -16,7 +16,8 @@
     "seed:test": "sequelize db:seed:all --env=test",
     "delete:prod": "sequelize db:drop --env=production",
     "delete:dev": "sequelize db:drop --env=development",
-    "delete:test": "sequelize db:drop --env=test"
+    "delete:test": "sequelize db:drop --env=test",
+    "swagger-autogen": "node swagger.js"
   },
   "engines": {
     "node": "17.x"
@@ -36,6 +37,8 @@
     "morgan": "^1.10.0",
     "mysql2": "^2.3.3",
     "sequelize": "^6.16.1",
+    "swagger-autogen": "^2.19.0",
+    "swagger-ui-express": "^4.3.0",
     "yup": "^0.32.11"
   },
   "devDependencies": {
