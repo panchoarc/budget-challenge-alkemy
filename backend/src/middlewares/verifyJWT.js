@@ -5,7 +5,8 @@ module.exports = async (req, res, next) => {
   //Read the token from the headers
 
   try {
-    const token = req.header("access-token");
+    const token = req.headers.authorization.split(" ")[1];
+
     //Check if no token
     if (!token) {
       return res.status(401).json({ message: "Token not Provided" });
