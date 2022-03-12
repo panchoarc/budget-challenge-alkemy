@@ -10,6 +10,7 @@ const swaggerFile = require("../swagger-output.json");
 const routes = require("./routes");
 const app = express();
 
+app.set("view engine", "hbs");
 app.use(cors());
 app.use(helmet());
 app.use(logger("dev"));
