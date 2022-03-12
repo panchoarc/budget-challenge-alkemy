@@ -4,7 +4,10 @@ const registerSchema = yup.object({
   name: yup
     .string()
     .required("name is required")
-    .matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field "),
+    .matches(
+      /^[a-zA-Z\u00C0-\u00FF ]*$/,
+      "Only alphabets are allowed for this field "
+    ),
   email: yup
     .string()
     .required("email is required")
