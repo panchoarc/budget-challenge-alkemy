@@ -6,6 +6,8 @@ const { signJWT } = require("../helpers/Jwt");
 const db = require("../models");
 const UserEntity = "users";
 
+const { sendMail } = require("../services/emailService");
+
 const signupUser = async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -16,15 +18,14 @@ const signupUser = async (req, res) => {
         message: "User already exists",
       });
     } else {
-      const hashedPassword = await generateEncryptedPassword(password);
-      await db[UserEntity].create({
+      const registerData = {
         name,
         email,
-        password: hashedPassword,
-      });
-      res.status(201).json({
-        message: "User created successfully",
-      });
+      };
+      const hashedPassword = await generateEncryptedPassword(password);
+      await db[UserEntity].create({ name, email, password: hashedPassword });
+      await sendMail(email, registerData, "register"); // send email to user
+      res.status(201).json({ message: "User created successfully" });
     }
   } catch (error) {
     console.log(error);
@@ -41,14 +42,10 @@ const loginUser = async (req, res) => {
         const token = signJWT(user);
         res.status(200).json({ token });
       } else {
-        res.status(400).json({
-          message: "Invalid Credentials",
-        });
+        res.status(400).json({ message: "Invalid Credentials" });
       }
     } else {
-      return res.status(404).json({
-        message: "User does not exist",
-      });
+      return res.status(404).json({ message: "User does not exist" });
     }
   } catch (error) {
     console.log(error);
