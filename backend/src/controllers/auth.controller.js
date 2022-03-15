@@ -24,7 +24,7 @@ const signupUser = async (req, res) => {
       };
       const hashedPassword = await generateEncryptedPassword(password);
       await db[UserEntity].create({ name, email, password: hashedPassword });
-      await sendMail(email, registerData, "register"); // send email to user
+      //await sendMail(email, registerData, "register"); // send email to user
       res.status(201).json({ message: "User created successfully" });
     }
   } catch (error) {

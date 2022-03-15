@@ -6,7 +6,7 @@
   "scripts": {
     "prod": "set NODE_ENV=production&& node ./src/index.js",
     "dev": "cross-env NODE_ENV=development && nodemon ./src/index.js",
-    "test": "set NODE_ENV=test&& jest --watch --detectOpenHandles",
+    "test": "set NODE_ENV=test&& jest --watch maxWorkers=1",
     "test:coverage": "set NODE_ENV=test&& jest --coverage --detectOpenHandles",
     "migrate:prod": "sequelize db:create --env=production && sequelize db:migrate --env=production",
     "migrate:dev": "sequelize db:create --env=development && sequelize db:migrate --env=development",

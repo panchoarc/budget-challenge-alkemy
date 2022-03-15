@@ -4,42 +4,29 @@ const db = require("../src/models");
 const request = supertest(app);
 const authRoute = "/api/auth";
 
-const validData = {
-  name: "test",
-  email: "example@example.com",
-  password: "12345678",
-};
-
-const invalidData = {
-  name: "test",
-  email: "",
-  password: "12345678",
-};
-
-const invalidUserLogin = {
-  email: "example1@example.com",
-  password: "12345678",
-};
-
-const invalidCredentials = {
-  email: "example@example.com",
-  password: "123456",
-};
+const {
+  invalidCredentials,
+  invalidData,
+  invalidUserLogin,
+  mockedUser,
+  userToRegister,
+  validCredentials,
+  userExists,
+} = require("./mocks/authData");
 
 beforeAll(async () => {
   await db.sequelize.sync({ force: true });
+  await db["users"].create(mockedUser);
+});
+
+afterAll(async () => {
+  await db.sequelize.sync({ force: true });
+  await db.sequelize.close();
 });
 
 describe(`POST ${authRoute}/signup`, () => {
-  it("should success when trying to create an user that doesn't exists, responding a HTTP 201 Created", async () => {
-    const response = await request.post(`${authRoute}/signup`).send(validData);
-
-    expect(response.status).toBe(201);
-    expect(response.body.message).toBe("User created successfully");
-  });
-
   it("should fail when trying to create an user valid that exists, responding a HTTP 400 Bad Request", async () => {
-    const response = await request.post(`${authRoute}/signup`).send(validData);
+    const response = await request.post(`${authRoute}/signup`).send(userExists);
 
     expect(response.status).toBe(400);
     expect(response.body.message).toBe("User already exists");
@@ -57,20 +44,17 @@ describe(`POST ${authRoute}/signup`, () => {
       })
     );
   });
+  it("should success when trying to create an user that doesn't exists, responding a HTTP 201 Created", async () => {
+    const response = await request
+      .post(`${authRoute}/signup`)
+      .send(userToRegister);
+
+    expect(response.status).toBe(201);
+    expect(response.body.message).toBe("User created successfully");
+  });
 });
 
 describe(`POST ${authRoute}/login`, () => {
-  it("should success when trying to login with an user that exists, responding a HTTP 200 OK", async () => {
-    const response = await request.post(`${authRoute}/login`).send(validData);
-
-    expect(response.status).toBe(200);
-    expect(response.body).toEqual(
-      expect.objectContaining({
-        token: expect.any(String),
-      })
-    );
-  });
-
   it("should fail if the credentials aren't correct, responding a HTTP 404 Not Found", async () => {
     const response = await request
       .post(`${authRoute}/login`)
@@ -87,5 +71,18 @@ describe(`POST ${authRoute}/login`, () => {
 
     expect(response.status).toBe(400);
     expect(response.body.message).toEqual("Invalid Credentials");
+  });
+
+  it("should success when trying to login with an user that exists, responding a HTTP 200 OK", async () => {
+    const response = await request
+      .post(`${authRoute}/login`)
+      .send(validCredentials);
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(
+      expect.objectContaining({
+        token: expect.any(String),
+      })
+    );
   });
 });
